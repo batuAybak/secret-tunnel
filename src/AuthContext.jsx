@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { createContext, useContext, useState } from "react";
 
 const API = "https://fsa-jwt-practice.herokuapp.com";
@@ -18,7 +19,6 @@ export function AuthProvider({ children }) {
       });
       const responseJSON = await response.json(); //{success: ... , message: 'Thanks for signing up!', token: '....'}
       const responseJSONToken = responseJSON.token; //{token: '....'}
-      console.log(responseJSON);
       setToken(responseJSONToken);
       setLocation("TABLET"); // Move to next location, which is the TABLET location
     } catch (error) {
@@ -35,10 +35,8 @@ export function AuthProvider({ children }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      const responseJSON = await response.json(); //{success: ... , message: 'Thanks for signing up!', token: '....'}
+      const responseJSON = await response.json();
       const usernameFromToken = responseJSON.data.username;
-      console.log(usernameFromToken);
-      console.log(username);
       //if username value from authenticate API and user input matches
       // enter the tunnel by removing the setLocation state variable.
       if (usernameFromToken === username) setLocation();
